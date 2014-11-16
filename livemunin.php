@@ -50,6 +50,7 @@ class LiveMunin {
         fwrite( $fp, "config $service\n");
         $parse = true;
         $values = Array();
+        $types = array();
         while( $parse ) {
             $line = fgets( $fp );
             if( preg_match("/^(\S+)\.type\s(.*)/", trim($line), $m ) ) {
@@ -129,6 +130,9 @@ class LiveMunin {
         $results = Array();
         foreach( $data as $type => $value ) {
             $result = Array();
+            if (!isset($config[$type])) {
+                $config[$type] = '';
+            }
             switch( $config[$type] ) {
                 case 'DERIVE':
                     $oldval = $this->cache( 'old_' . $service . $type );
